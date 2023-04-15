@@ -30,7 +30,7 @@ function SignupPage() {
   };
 
   return (
-    <div className="container">
+    <div className="signupbox">
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
         <label>

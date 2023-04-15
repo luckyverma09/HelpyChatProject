@@ -11,22 +11,38 @@
   
   .container {
     display: flex;
+    margin: AUTO;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content:center;
     height: 80vh;
-    width: 100%;
+    width: 80%;
   }
   
   .chats {
     padding: 3px;
-    overflow-y: scroll;
+    overflow-y:scroll;
+
     display: flex;
     flex-direction: column;
   }
-  .avtar {
+  .sendavtar {
     height: 40px;
     margin: 5px 10px 0px 0px;
-    border-radius: 50%;
+    border-top-right-radius: 0%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-top-left-radius: 50%;
+    border: 1px solid rgb(255, 255, 255);
+    padding: 2px;
+    background-color: rgb(228, 221, 181);
+  }
+  .reciveavtar {
+    height: 40px;
+    margin: 5px 10px 0px 0px;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    border-top-left-radius: 0%;
     border: 1px solid rgb(255, 255, 255);
     padding: 2px;
     background-color: rgb(228, 221, 181);
@@ -61,5 +77,8 @@
   
   .message-text {
     margin: 1px;
+  }
+  .chatcont{
+    margin-bottom: 10px;
   }
   

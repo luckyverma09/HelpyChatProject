@@ -7,7 +7,9 @@ function Home() {
   return (
     <>
         <Header/>
+        <div className='chatcont'>
         <ChatBox />
+        </div>
         <Footer/>
     
     </>

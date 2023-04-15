@@ -49,12 +49,13 @@ function ChatBox() {
           if (qna.from === YOU) {
             return (
               <div class="send chat">
+                <p>{renderContent(qna)}</p>
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/924/924874.png"
                   alt=""
-                  class="avtar"
+                  class="sendavtar"
                 />
-                <p>{renderContent(qna)}</p>
+                
               </div>
             );
           }
@@ -63,7 +64,7 @@ function ChatBox() {
               <img
                 src="https://cdn-icons-png.flaticon.com/512/6819/6819755.png"
                 alt=""
-                class="avtar"
+                class="reciveavtar"
               />
               <p>{renderContent(qna)}</p>
             </div>
@@ -75,7 +76,7 @@ function ChatBox() {
             <img
               src="https://cdn-icons-png.flaticon.com/512/6819/6819755.png"
               alt=""
-              class="avtar"
+              class="reciveavtar"
             />
             <p>Typing...</p>
           </div>
@@ -89,7 +90,7 @@ function ChatBox() {
           class="form-control col"
           placeholder="Ask Something..."
         />
-        <button disabled={loading} class="btn btn-outline-light" onClick={handleSend}>
+        <button disabled={loading} className="button" onClick={handleSend}>
           Send
         </button>
       </div>
