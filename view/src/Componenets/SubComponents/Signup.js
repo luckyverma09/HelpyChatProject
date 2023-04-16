@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-
-import '../../CSS/Signup.css'
+import validator from 'validator';
+import zxcvbn from 'zxcvbn';
+import '../../CSS/Signup.css';
 
 function SignupPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [errors, setErrors] = useState({});
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -26,7 +28,46 @@ function SignupPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Here you can make an API call to submit the form data
+    const errors = {};
+
+    // Validate name
+    if (!name) {
+      errors.name = 'Name is required';
+    }
+
+    // Validate email
+    if (!email) {
+      errors.email = 'Email is required';
+    } else if (!validator.isEmail(email)) {
+      errors.email = 'Invalid email address';
+    }
+
+    // Validate password
+    if (!password) {
+      errors.password = 'Password is required';
+    } else if (zxcvbn(password).score < 3) {
+      errors.password = 'Password is not strong enough';
+    }
+
+    // Validate confirm password
+    if (!confirmPassword) {
+      errors.confirmPassword = 'Confirm password is required';
+    } else if (password !== confirmPassword) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
+
+    if (Object.keys(errors).length === 0) {
+      // Here you can make an API call to submit the form data
+      console.log('Submitting form data:', { name, email, password, confirmPassword });
+      // Clear form after successful submission
+      setName('');
+      setEmail('');
+      setPassword('');
+      setConfirmPassword('');
+      setErrors({});
+    } else {
+      setErrors(errors);
+    }
   };
 
   return (
@@ -35,25 +76,29 @@ function SignupPage() {
       <form onSubmit={handleSubmit}>
         <label>
           Name:
-          <input type="text" value={name} onChange={handleNameChange} />
+          <input type="text" value={name} onChange={handleNameChange} required />
+          {errors.name && <span className="error">{errors.name}</span>}
         </label>
         <br />
         <label>
           Email:
-          <input type="email" value={email} onChange={handleEmailChange} />
+          <input type="email" value={email} onChange={handleEmailChange} required />
+          {errors.email && <span className="error">{errors.email}</span>}
         </label>
         <br />
         <label>
           Password:
-          <input type="password" value={password} onChange={handlePasswordChange} />
+          <input type="password" value={password} onChange={handlePasswordChange} required />
+          {errors.password && <span className="error">{errors.password}</span>}
         </label>
         <br />
         <label>
           Confirm Password:
-          <input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} />
+          <input type="password" value={confirmPassword} onChange={handleConfirmPasswordChange} required />
+          {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
         </label>
         <br />
-        <button type="submit">Sign Up</button>
+        <button type="submit" disabled={Object.keys(errors).length > 0}>Sign Up</button>
       </form>
     </div>
   );
