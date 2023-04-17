@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import validator from 'validator';
 import zxcvbn from 'zxcvbn';
 import '../../CSS/Signup.css';
+import axios from 'axios';
 
 function SignupPage() {
   const [name, setName] = useState('');
@@ -58,13 +59,23 @@ function SignupPage() {
 
     if (Object.keys(errors).length === 0) {
       // Here you can make an API call to submit the form data
-      console.log('Submitting form data:', { name, email, password, confirmPassword });
-      // Clear form after successful submission
-      setName('');
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
-      setErrors({});
+      axios.post('/api/user', {
+        name,
+        email,
+        password
+      })
+      .then((response) => {
+        console.log('User data saved:', response.data);
+        // Clear form after successful submission
+        setName('');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        setErrors({});
+      })
+      .catch((error) => {
+        console.error('Error saving user data:', error);
+      });
     } else {
       setErrors(errors);
     }

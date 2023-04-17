@@ -1,5 +1,10 @@
-const express = require("express");
 const OPENAI_API_KEY = "Enter API KEY !!!";
+//
+//
+//
+const bcrypt = require("bcryptjs");
+const express = require("express");
+const mongoose = require("mongoose");
 const { Configuration, OpenAIApi } = require("openai");
 const cors = require("cors");
 const configuration = new Configuration({
@@ -8,9 +13,44 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const app = express();
+app.use(express.json());
 app.use(cors());
 
-app.use(express.json());
+const mongoUrl = "mongodb://localhost:27017/mydatabase";
+mongoose
+  .connect(mongoUrl, {
+    useNewUrlParser: true,
+  })
+  .then(() => {
+    console.log("Connected to database");
+  })
+  .catch((e) => console.log(e));
+
+require("./userDetail");
+const User = mongoose.model("UserInfo");
+
+app.post("/Signup", async (req, res) => {
+  const { fname, email, password } = req.body;
+
+  // const encryptedPassword = await bcrypt.hash(password, 10);
+  try {
+    const oldUser = await User.findOne({ email });
+
+    if (oldUser) {
+      return res.json({ error: "User Exists" });
+    }
+    await User.create({
+      fname,
+      email,
+      password                                // : encryptedPassword,
+    });
+    res.send({ status: "ok" });
+  } catch (error) {
+    res.send({ status: "error" });
+  }
+});
+
+
 
 app.post("/chat", (req, res) => {
   const question = req.body.question;

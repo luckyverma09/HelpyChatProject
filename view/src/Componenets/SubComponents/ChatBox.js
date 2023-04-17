@@ -90,7 +90,7 @@ function ChatBox() {
           class="form-control col"
           placeholder="Ask Something..."
         />
-        <button disabled={loading} className="button" onClick={handleSend}>
+        <button disabled={loading} className="chat-button" onClick={handleSend}>
           Send
         </button>
       </div>
