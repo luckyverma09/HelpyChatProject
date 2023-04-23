@@ -5,7 +5,9 @@ import axios from "axios";
 const YOU = "you";
 const AI = "ai";
 
+
 function ChatBox() {
+  
   const inputRef = useRef();
   const [qna, setQna] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -20,7 +22,7 @@ function ChatBox() {
 
     setLoading(true);
     axios
-      .post("http://localhost:4000/chat", {
+      .post("http://localhost:3000/chat", {
         question,
       })
       .then((response) => {
@@ -53,6 +55,7 @@ function ChatBox() {
                   alt=""
                   class="sendavtar"
                 />
+                
               </div>
             );
           }

@@ -1,4 +1,4 @@
-const OPENAI_API_KEY = "Enter API KEY !!!";
+const OPENAI_API_KEY = "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";
 //
 //
 //
