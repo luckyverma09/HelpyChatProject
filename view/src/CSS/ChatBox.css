@@ -82,7 +82,6 @@
   margin-bottom: 10px;
 }
 
-
 .sendavtar {
   height: 40px;
   margin: 5px 10px 0px 0px;
@@ -105,4 +104,21 @@
   border: 1px solid rgb(255, 255, 255);
   padding: 2px;
   background-color: rgb(228, 221, 181);
+}
+.dropdown {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid gray;
+  opacity: .5;
+}
+
+.dropdown:empty {
+  border: none;
+}
+
+.dropdown-row {
+  cursor: pointer;
+  text-align: start;
+  margin: 2px 0;
 }
