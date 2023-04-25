@@ -48,7 +48,7 @@ app.post("/Signup", async (req, res) => {
       email,
       password,
     });
-    res.send({ status: "ok" });
+    res.send({ status: "created" });
   } catch (error) {
     res.send({ status: "error" });
   }
@@ -62,7 +62,7 @@ app.post("/Login", async (req, res) => {
   const user = await User.findOne({ email });
   if (user) {
     if (user.password === password) {
-      return res.json("Login Ok");
+      return res.json("login");
     } else {
       return res.json({ error: "Password doesn't match!" });
     }
