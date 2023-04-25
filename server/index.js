@@ -1,8 +1,10 @@
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = "";  //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
 //
 //
 //
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
+const compare = bcrypt.compare;
+
 const express = require("express");
 const mongoose = require("mongoose");
 const { Configuration, OpenAIApi } = require("openai");
@@ -16,7 +18,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const mongoUrl = "mongodb://localhost:27017/mydatabase";
+// connection to database
+const mongoUrl = "mongodb://0.0.0.0:27017/HelpyChat";
 mongoose
   .connect(mongoUrl, {
     useNewUrlParser: true,
@@ -29,10 +32,11 @@ mongoose
 require("./userDetail");
 const User = mongoose.model("UserInfo");
 
-app.post("/Signup", async (req, res) => {
-  const { fname, email, password } = req.body;
+//User SignUp
 
-  // const encryptedPassword = await bcrypt.hash(password, 10);
+app.post("/Signup", async (req, res) => {
+  const { name, email, password } = req.body;
+
   try {
     const oldUser = await User.findOne({ email });
 
@@ -40,9 +44,9 @@ app.post("/Signup", async (req, res) => {
       return res.json({ error: "User Exists" });
     }
     await User.create({
-      fname,
+      name,
       email,
-      password                                // : encryptedPassword,
+      password,
     });
     res.send({ status: "ok" });
   } catch (error) {
@@ -50,8 +54,25 @@ app.post("/Signup", async (req, res) => {
   }
 });
 
+//User Login
+
+app.post("/Login", async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+  if (user) {
+    if (user.password === password) {
+      return res.json("Login Ok");
+    } else {
+      return res.json({ error: "Password doesn't match!" });
+    }
+  } else {
+    return res.json({ error: "User doesn't exist" });
+  }
+});
 
 
+//Handeling user question
 app.post("/chat", (req, res) => {
   const question = req.body.question;
 
@@ -83,6 +104,7 @@ app.post("/chat", (req, res) => {
   console.log({ question });
 });
 
+//starting the server
 app.listen(4000, () => {
   console.log("Server is listening on port 4000");
 });
