@@ -2,8 +2,6 @@ const OPENAI_API_KEY = "";  //sk-FGphOo6DMAiIBnOGbcpIT3BlbkFJ9msuEOI4thlAaC0uh20
 //
 //
 //
-const bcrypt = require("bcrypt");
-const compare = bcrypt.compare;
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -29,14 +27,13 @@ mongoose
   })
   .catch((e) => console.log(e));
 
-require("./userDetail");
+require("./userDetail.js");
 const User = mongoose.model("UserInfo");
 
 //User SignUp
 
 app.post("/Signup", async (req, res) => {
-  const { name, email, password } = req.body;
-
+  const { fname, lname, email, password } = req.body;
   try {
     const oldUser = await User.findOne({ email });
 
@@ -44,15 +41,19 @@ app.post("/Signup", async (req, res) => {
       return res.json({ error: "User Exists" });
     }
     await User.create({
-      name,
+      fname,
+      lname,
       email,
       password,
     });
-    res.send({ status: "created" });
+    res.send({ status: "ok" });
   } catch (error) {
     res.send({ status: "error" });
   }
 });
+
+
+
 
 //User Login
 
@@ -62,7 +63,7 @@ app.post("/Login", async (req, res) => {
   const user = await User.findOne({ email });
   if (user) {
     if (user.password === password) {
-      return res.json("login");
+      return res.json("Login Ok");
     } else {
       return res.json({ error: "Password doesn't match!" });
     }
@@ -70,6 +71,9 @@ app.post("/Login", async (req, res) => {
     return res.json({ error: "User doesn't exist" });
   }
 });
+
+
+
 
 
 //Handeling user question

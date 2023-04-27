@@ -1,109 +1,82 @@
-import React, { useState } from "react";
-import "../../CSS/Signup.css";
+import { useState } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
-import axios from "axios"
-import { useNavigate, Router  } from 'react-router-dom'
+import "../../CSS/Login.css";
+import Header from "../Header";
+import Footer from "../Footer";
 
-export default function Login() {
-  const history=useNavigate();
-  function matching() {
-    if (
-      document
-        .getElementById("email")
-        .value.match(
-          /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-        )
-        
-    ) {
-      
-      return;
-    } else {
-      document.getElementById("errors").innerText = "*Incorrect Email";
-      
-    }
-  }
-  const[userRegister, setUserRegister]=useState({
-    email:"",
-    password:""
-  });
-  const handleInput=(e)=>
-  {
-    e.preventDefault();
-    const {name,value}=e.target;
-    setUserRegister({...userRegister,[name]:value});
+const Login = () => {
+	const [data, setData] = useState({ email: "", password: "" });
+	const [error, setError] = useState("");
 
-  };
-  const login= ()=>
-  {
-    const {email,password}=userRegister;
-    if(email && password)
-    {
-      axios.post('http://localhost:4000/Login',userRegister).then((res)=>
-      {
-        if(res.data==="login")
-        {
-          history("/about");
-        }
-        else if(res.data==="pass"){
-          
-          alert("Password does not match");
-          history("/Login");
-        }
-        else{
-          alert("New User ? Try Logging In");
-          history('/Login');
-        }
-       
+	const handleChange = ({ currentTarget: input }) => {
+		setData({ ...data, [input.name]: input.value });
+	};
 
-      })
-    }
-    else{
-      alert("Invalid Input");
-    }
-  };
-  return (
-    <>
-     <form method="#">
-        <div className="maincontainer">
-          <div className="heading">
-            
-          </div>
-          
-          <div className="inputs">
-            <label>Email</label>
-            <input
-              name="email"
-              id="email"
-              type="email"
-            //   onBlur={matching}
-              required
-              value={userRegister.email}
-              onChange={handleInput}
-              
-            />
-          </div>
-          <div className="inputs">
-            <label>Password</label>
-            <input
-              name="password"
-              id="password"
-              type="password"
-              
-              required
-              value={userRegister.password}
-              onChange={handleInput}
-            />
-          </div>
-          
-          
-          <p Id="errors"></p>
-          <input id="submitbutton" type="submit" onClick={login} onChange={handleInput}/>
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			const url = "http://localhost:4000/Login";
+			const { data: res } = await axios.post(url, data);
+			localStorage.setItem("token", res.data);
+			alert("Welcome back, you are Logged in.")
+			window.location = "/home";
+		} catch (error) {
+			if (
+				error.response &&
+				error.response.status >= 400 &&
+				error.response.status <= 500
+			) {
+				setError(error.response.data.message);
+			}
+		}
+	};
 
-          <Link to="/signup" className="loginredirect">
-            New User? Try Signup Now
-          </Link>
-        </div>
-      </form>
-    </>
-  )
-}
+	return (
+		<>
+		<Header />
+		<div className="login_container">
+			<div className="login_form_container">
+				<div className="left">
+					<form className="form_container" onSubmit={handleSubmit}>
+						<h1>Login to Your Account</h1>
+						<input
+							type="email"
+							placeholder="Email"
+							name="email"
+							onChange={handleChange}
+							value={data.email}
+							required
+							className="input"
+						/>
+						<input
+							type="password"
+							placeholder="Password"
+							name="password"
+							onChange={handleChange}
+							value={data.password}
+							required
+							className="input"
+						/>
+						{error && <div className="error_msg">{error}</div>}
+						<button type="submit" className="green_btn">
+							Sign In
+						</button>
+					</form>
+				</div>
+				<div className="right">
+					<h1>New Here ?</h1>
+					<Link to="/signup">
+						<button type="button" className="white_btn">
+							Sign Up
+						</button>
+					</Link>
+				</div>
+			</div>
+		</div>
+		<Footer />
+		</>
+	);
+};
+
+export default Login;
