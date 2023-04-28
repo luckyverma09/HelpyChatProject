@@ -1,8 +1,7 @@
-const OPENAI_API_KEY = "";  //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
+const OPENAI_API_KEY = ""; //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
 //
 //
 //
-
 const express = require("express");
 const mongoose = require("mongoose");
 const { Configuration, OpenAIApi } = require("openai");
@@ -29,6 +28,8 @@ mongoose
 
 require("./userDetail.js");
 const User = mongoose.model("UserInfo");
+require("./contact.js");
+const contact = mongoose.model("contact");
 
 //User SignUp
 
@@ -52,29 +53,39 @@ app.post("/Signup", async (req, res) => {
   }
 });
 
+//contact us
 
-
+app.post("/Contact", async (req, res) => {
+  const { name, email, subject, message } = req.body;
+  try {
+    await contact.create({
+      name,
+      email,
+      subject,
+      message,
+    });
+    res.send({ status: "ok" });
+  } catch (error) {
+    res.send({ status: "error" });
+  }
+});
 
 //User Login
 
-app.post("/Login", async (req, res) => {
+app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   const user = await User.findOne({ email });
   if (user) {
     if (user.password === password) {
-      return res.json("Login Ok");
+      res.send("ok");
     } else {
-      return res.json({ error: "Password doesn't match!" });
+      res.send("pass");
     }
   } else {
-    return res.json({ error: "User doesn't exist" });
+    res.send("ne");
   }
 });
-
-
-
-
 
 //Handeling user question
 app.post("/chat", (req, res) => {
