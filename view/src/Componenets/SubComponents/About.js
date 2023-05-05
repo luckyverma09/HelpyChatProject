@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../CSS/About.css';
+import Header from "../Header";
 
 const members = [
   {
@@ -29,6 +30,7 @@ function About() {
 
   return (
     <>
+      <Header />
       <div className="aboutpage">
       <img src='https://img.freepik.com/free-vector/technology-wire-mesh-network-connection-digital-background_1017-28407.jpg' alt="aboutus" />
         <div className="about-text">

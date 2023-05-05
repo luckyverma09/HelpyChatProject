@@ -136,7 +136,7 @@ function ChatBox() {
                 fullName !== searchTerm
               );
             })
-            .slice(0, 10)
+            .slice(0, 5)
             .map((item) => (
               <div
                 onClick={() => onSearch(item.ques)}

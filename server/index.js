@@ -1,5 +1,7 @@
-const OPENAI_API_KEY = "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";
-// "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"; //
+const OPENAI_API_KEY =
+//  "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"
+"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";
+// "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"; 
 //
 //
 //
