@@ -1,19 +1,18 @@
-import React from 'react'
-import Header from '../Header'
-import Footer from '../Footer'
-import ChatBox from './ChatBox'
+import React from "react";
+import Header from "../Header";
+import Footer from "../Footer";
+import ChatBox from "./ChatBox";
 
 function Home() {
   return (
     <>
-        <Header/>
-        <div className='chatcont'>
+      <Header />
+      <div className="chatcont">
         <ChatBox />
-        </div>
-        <Footer/>
-    
+      </div>
+      <Footer />
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;

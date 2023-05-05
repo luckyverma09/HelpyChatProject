@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import "../../CSS/ChatBox.css";
 import axios from "axios";
-var data = require("../../Assest/ques.json");
+import data from "../../Assest/ques.json";
 
 const YOU = "you";
 const AI = "ai";
@@ -42,6 +42,20 @@ function ChatBox() {
       .finally(() => {
         setLoading(false);
       });
+
+    // add the new search question to the JSON file
+    // const newQuestion = { ques: question };
+    // data.push(newQuestion);
+
+    // // save the updated JSON file
+    // const jsonData = JSON.stringify(data, null, 2);
+    // const fs = require("fs");
+    // fs.writeFile("./src/Assest/ques.json", jsonData, (err) => {
+    //   if (err) throw err;
+    //   console.log("The file has been saved!");
+    // });
+
+    
   };
 
   const renderContent = (qna) => {
@@ -102,16 +116,15 @@ function ChatBox() {
             class="form-control col"
             placeholder="Ask Something..."
           />
-
           <button
             disabled={loading}
-            className="chat-button"
+            classNameName="chat-button"
             onClick={handleSend}
           >
             Send
           </button>
         </div>
-        <div className="dropdown">
+        <div classNameName="dropdown">
           {data
             .filter((item) => {
               const searchTerm = value.toLowerCase();
@@ -127,7 +140,7 @@ function ChatBox() {
             .map((item) => (
               <div
                 onClick={() => onSearch(item.ques)}
-                className="dropdown-row"
+                classNameName="dropdown-row"
                 key={item.ques}
               >
                 {item.ques}

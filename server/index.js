@@ -1,4 +1,5 @@
-const OPENAI_API_KEY = ""; //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
+const OPENAI_API_KEY = "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";
+// "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"; //
 //
 //
 //
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+
 // connection to database
 const mongoUrl = "mongodb://0.0.0.0:27017/HelpyChat";
 mongoose
@@ -30,6 +32,7 @@ require("./userDetail.js");
 const User = mongoose.model("UserInfo");
 require("./contact.js");
 const contact = mongoose.model("contact");
+
 
 //User SignUp
 

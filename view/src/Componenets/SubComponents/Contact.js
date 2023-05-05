@@ -21,7 +21,7 @@ const ContactUs = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:4000/contact";
+      const url = "http://localhost:4000/Contact";
       const response = await axios.post(url, formData);
       setFormSubmitted(true);
     } catch (error) {
